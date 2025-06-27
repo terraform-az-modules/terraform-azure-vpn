@@ -5,14 +5,20 @@ on:
   pull_request:
   workflow_dispatch:
 jobs:
-# Update 'Job name' and 'working_directory' as needed based on the module structure.
-  complete-example:
+   site-to-site-example:
     uses: clouddrove/github-shared-workflows/.github/workflows/tf-checks.yml@master
+    secrets: inherit
+    with:
+      working_directory: './examples/site-to-site/'
+
+   complete-example:
+    uses: clouddrove/github-shared-workflows/.github/workflows/tf-checks.yml@master
+    secrets: inherit
     with:
       working_directory: './examples/complete/'
-  
-# Seperate Job for TFlint workflow call
-  tf-lint:
-    uses: clouddrove/github-shared-workflows/.github/workflows/tf-lint.yml@master
-    secrets:
-      GITHUB: ${{ secrets.GITHUB }}
+
+   point-to-site-with-certificate-example:
+    uses: clouddrove/github-shared-workflows/.github/workflows/tf-checks.yml@master
+    secrets: inherit
+    with:
+      working_directory: './examples/point-to-site-with-certificate/'
