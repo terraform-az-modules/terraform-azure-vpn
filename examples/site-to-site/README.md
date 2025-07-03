@@ -1,8 +1,8 @@
 <!-- BEGIN_TF_DOCS -->
 
-# Terraform Azure VPN Example
+# Terraform VPN Example
 
-This example demonstrates a Terraform configuration for deploying Azure VPN, VNet, Subnet, Resource Group, and Log Analytics resources.
+This readme demonstrates the structure and requirements for a Terraform configuration deploying VPN, VNet, Subnet, Resource Group, and Log Analytics resources in Azure.
 
 ---
 
@@ -47,8 +47,10 @@ No input variables are defined in this example.
 
 ## 📤 Outputs
 
-| Name        | Description                              |
-|-------------|------------------------------------------|
-| vpn_gw_id   | The ID of the Virtual Network Gateway.   |
+| Name                                 | Description                                   |
+|---------------------------------------|-----------------------------------------------|
+| local_network_gw_connection_id        | The ID of the Virtual Network Gateway Connection. |
+| local_network_gw_id                   | The ID of the Local Network Gateway.          |
+| vpn_gw_id                             | The ID of the Virtual Network Gateway.        |
 
 <!-- END_TF_DOCS -->

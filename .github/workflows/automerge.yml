@@ -1,3 +1,4 @@
+---
 name: Auto merge
 on:
   pull_request:
@@ -8,3 +9,4 @@ jobs:
       GITHUB: ${{ secrets.GITHUB }}
     with:
       tfcheck: 'examples/complete/**'
+...
