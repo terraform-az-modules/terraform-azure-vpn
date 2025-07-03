@@ -25,7 +25,7 @@ EOT
 ##-----------------------------------------------------------------------------
 variable "repository" {
   type        = string
-  default     = "https://github.com/terraform-az-modules/terraform-azure-subnet.git"
+  default     = "https://github.com/terraform-az-modules/terraform-azure-vpn"
   description = "Terraform current module repo"
 
   validation {
@@ -261,8 +261,14 @@ variable "metric_enabled" {
   description = "Whether metric diagnonsis should be enable in diagnostic settings for flexible Mysql."
 }
 
-variable "log_category" {
+variable "log_category_vgw" {
   type        = list(string)
-  default     = ["MySqlAuditLogs"]
-  description = "Categories of logs to be recorded in diagnostic setting. Acceptable values are MySqlSlowLogs , MySqlAuditLogs "
+  default     = ["GatewayDiagnosticLog"]
+  description = "Categories of logs to be recorded in diagnostic setting for pip_gw."
+}
+
+variable "log_category_pip" {
+  type        = list(string)
+  default     = ["DDoSProtectionNotifications"]
+  description = "Categories of logs to be recorded in diagnostic setting for vgw."
 }

@@ -5,6 +5,7 @@ provider "azurerm" {
 locals {
   name        = "app"
   environment = "test"
+  location    = "canadacentral"
 }
 
 ##-----------------------------------------------------------------------------
@@ -17,7 +18,7 @@ module "resource_group" {
   name        = local.name
   environment = local.environment
   label_order = ["name", "environment", "location"]
-  location    = "canadacentral"
+  location    = local.location
 }
 
 ##-----------------------------------------------------------------------------
@@ -51,7 +52,7 @@ module "subnet" {
     route_table     = "rt-test"
   }]
 
-  enable_route_table = false
+  enable_route_table = true
   route_tables = [
     {
       name           = "rt-test"
@@ -93,7 +94,7 @@ module "vpn" {
   resource_group_name  = module.resource_group.resource_group_name
   subnet_id            = module.subnet.subnet_ids["GatewaySubnet"]
   #### enable diagnostic setting
-  diagnostic_setting_enable  = false
+  diagnostic_setting_enable  = true
   log_analytics_workspace_id = module.log-analytics.workspace_id
   vpn_client_configuration_c = {
     address_space        = "172.16.201.0/24"

@@ -5,6 +5,8 @@ provider "azurerm" {
 locals {
   name        = "app-vpnd"
   environment = "test"
+  location    = "canadacentral"
+
 }
 
 ##-----------------------------------------------------------------------------
@@ -17,7 +19,7 @@ module "resource_group" {
   name        = local.name
   environment = local.environment
   label_order = ["name", "environment", "location"]
-  location    = "canadacentral"
+  location    = local.location
 }
 
 ##-----------------------------------------------------------------------------

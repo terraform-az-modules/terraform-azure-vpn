@@ -5,6 +5,8 @@ provider "azurerm" {
 locals {
   name        = "app"
   environment = "test"
+  location    = "canadacentral"
+
 }
 
 ##-----------------------------------------------------------------------------
@@ -17,7 +19,7 @@ module "resource_group" {
   name        = local.name
   environment = local.environment
   label_order = ["name", "environment", "location"]
-  location    = "canadacentral"
+  location    = local.location
 }
 
 ##-----------------------------------------------------------------------------
@@ -88,7 +90,7 @@ module "log-analytics" {
 module "vpn" {
   depends_on                  = [module.vnet]
   source                      = "../../"
-  name                        = "site-to-site"
+  name                        = local.name
   environment                 = local.environment
   sts_vpn                     = true
   resource_group_name         = module.resource_group.resource_group_name

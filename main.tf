@@ -40,7 +40,7 @@ resource "azurerm_public_ip" "pip_gw" {
 ##-----------------------------------------------------------------------------
 resource "azurerm_virtual_network_gateway" "vpngw" {
   count               = var.enable && (var.vpn_ad || var.sts_vpn) ? 1 : 0
-  name                = var.resource_position_prefix ? format("%s-vpn-gateway", local.name) : format("vpn-gateway-%s", local.name)
+  name                = var.resource_position_prefix ? format("%s-vgw", local.name) : format("vgw-%s", local.name)
   resource_group_name = data.azurerm_resource_group.rg.name
   location            = data.azurerm_resource_group.rg.location
   type                = var.gateway_type
@@ -90,7 +90,7 @@ resource "azurerm_virtual_network_gateway" "vpngw" {
 ##-----------------------------------------------------------------------------
 resource "azurerm_virtual_network_gateway" "vpngw2" {
   count               = var.enable && var.vpn_with_certificate ? 1 : 0
-  name                = var.resource_position_prefix ? format("%s-vpn-gateway", local.name) : format("vpn-gateway-%s", local.name)
+  name                = var.resource_position_prefix ? format("%s-vgw", local.name) : format("vgw-%s", local.name)
   resource_group_name = data.azurerm_resource_group.rg.name
   location            = data.azurerm_resource_group.rg.location
   type                = var.gateway_type
@@ -191,15 +191,16 @@ resource "azurerm_virtual_network_gateway_connection" "az-hub-onprem" {
 ##-----------------------------------------------------------------------------
 resource "azurerm_monitor_diagnostic_setting" "main" {
   count                          = var.enable && var.diagnostic_setting_enable ? 1 : 0
-  name                           = var.resource_position_prefix ? format("%s-vpn-gateway-diagnostic-log", local.name) : format("vpn-gateway-diagnostic-log-%s", local.name)
+  name                           = var.resource_position_prefix ? format("%s-vgw-diagnostic-log", local.name) : format("vgw-diagnostic-log-%s", local.name)
   target_resource_id             = var.vpn_ad || var.sts_vpn ? azurerm_virtual_network_gateway.vpngw[0].id : azurerm_virtual_network_gateway.vpngw2[0].id
   storage_account_id             = var.storage_account_id
   eventhub_name                  = var.eventhub_name
   eventhub_authorization_rule_id = var.eventhub_authorization_rule_id
   log_analytics_workspace_id     = var.log_analytics_workspace_id
   log_analytics_destination_type = var.log_analytics_destination_type
+
   dynamic "enabled_log" {
-    for_each = var.log_category
+    for_each = var.log_category_vgw
     content {
       category = enabled_log.value
     }
@@ -229,7 +230,7 @@ resource "azurerm_monitor_diagnostic_setting" "pip_gw" {
   log_analytics_workspace_id     = var.log_analytics_workspace_id
   log_analytics_destination_type = var.log_analytics_destination_type
   dynamic "enabled_log" {
-    for_each = var.log_category
+    for_each = var.log_category_pip
     content {
       category = enabled_log.value
     }
